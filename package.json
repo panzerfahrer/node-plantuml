@@ -1,6 +1,6 @@
 {
   "name": "@panzerfahrer/node-plantuml",
-  "version": "0.9.0-1",
+  "version": "0.9.0-1.2023.4",
   "plantumlVersion": "1.2023.4",
   "description": "A Node.js module and CLI for running PlantUML",
   "main": "index.js",
