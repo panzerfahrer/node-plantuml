@@ -9,18 +9,33 @@ module.exports = function download (uri, filename, changeExitCodeOnError, callba
   const protocol = new URL(uri).protocol.slice(0, -1)
 
   require(protocol).get(uri, function (res) {
-    trace.push('Reponse: ' + res.statusCode)
+    trace.push('Response: ' + res.statusCode)
     if (res.statusCode === 200) {
       // Success, pipe to file
+      process.stdout.write('... Downloading')
+      let downloaded = 0
+      let lastProgress = 0
+      const totalSize = res.headers['content-length']
+      res.on('data', function (chunk) {
+        downloaded += chunk.length
+        const progress = Math.round((downloaded / totalSize) * 100)
+        if (progress % 25 === 0 && progress > lastProgress) {
+          lastProgress = progress
+          process.stdout.write(`...${progress}%`)
+        }
+      })
       const fileStream = fs.createWriteStream(filename)
-      res.pipe(fileStream)
-      if (callback) {
-        res.on('end', function () {
+      res.on('end', () => {
+        console.info('... Done')
+        fileStream.close()
+        if (callback) {
           callback()
-        })
-      }
+        }
+      })
+      res.pipe(fileStream)
     } else if (res.headers.location) {
       // Follow redirect
+      console.info('... Redirecting to ' + res.headers.location)
       download(res.headers.location, filename, changeExitCodeOnError, callback)
     } else {
       // Error
