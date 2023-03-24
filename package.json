@@ -1,11 +1,17 @@
 {
-  "name": "node-plantuml",
+  "name": "@panzerfahrer/node-plantuml",
   "version": "0.9.0-1",
   "plantumlVersion": "1.2023.4",
   "description": "A Node.js module and CLI for running PlantUML",
   "main": "index.js",
   "author": "Markus Hedvall <mackanhedvall@gmail.com>",
-  "repository": "https://github.com/markushedvall/node-plantuml",
+  "contributors": [
+    "Brian Hoffmann <panzerfahrer@users.noreply.github.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/panzerfahrer/node-plantuml.git"
+  },
   "license": "MIT",
   "engines": {
     "node": ">= 6.x"
